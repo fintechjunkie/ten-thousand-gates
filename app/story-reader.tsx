@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 import {
   ArrowRight,
   BookOpen,
-  ChevronDown,
   Compass,
   Library,
   Menu,
@@ -371,23 +370,22 @@ export default function StoryReader({
       </header>
 
       <div className="experience">
-        <section className="visual-stage" aria-live="polite">
-          <div className="plate-frame" aria-hidden="true" />
-          {activeVisuals.map((item) => (
-            <Image
-              key={item.image + item.label}
-              className={`stage-image ${item === visual ? 'is-active' : ''}`}
-              src={item.image}
-              alt=""
-              fill
-              priority={item === activeVisuals[0]}
-              sizes="(max-width: 980px) 100vw, 60vw"
-            />
-          ))}
-          <div className="stage-wash" />
-          <div className="scene-counter">
-            CH {chapter + 1} · {String(activeScene + 1).padStart(2, '0')}
-          </div>
+        <div className="visual-column">
+          <section className="visual-stage" aria-live="polite">
+            <div className="plate-frame" aria-hidden="true" />
+            {activeVisuals.map((item) => (
+              <Image
+                key={item.image + item.label}
+                className={`stage-image ${item === visual ? 'is-active' : ''}`}
+                src={item.image}
+                alt=""
+                fill
+                priority={item === activeVisuals[0]}
+                sizes="(max-width: 980px) 100vw, 60vw"
+              />
+            ))}
+            <div className="stage-wash" />
+          </section>
           <button
             className="character-peek"
             onClick={() => setOverlay('characters')}
@@ -406,11 +404,7 @@ export default function StoryReader({
             <span>Meet the company</span>
             <ArrowRight size={16} />
           </button>
-          <div className="scroll-cue">
-            <span>Scroll the account</span>
-            <ChevronDown size={16} />
-          </div>
-        </section>
+        </div>
 
         <section className="reading-panel">
           <div className="chapter-tabs" aria-label="Story chapters">
