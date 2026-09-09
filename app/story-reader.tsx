@@ -17,8 +17,16 @@ type Story = { chapters: Chapter[]; primer: string };
 
 const chapterNames = ['The Contract', 'The Warning', 'The Red', 'Ten Seconds'];
 const storyTwoChapterNames = ['The Bell', 'The Crew', 'The Gold', 'The Return'];
-const storyNames = ['The Red', 'The Gold'];
-const storyNumerals = ['I', 'II'];
+const storyThreeChapterNames = ['The Knife', 'The Offer', 'The Price', 'The Eight'];
+const storyNames = ['The Red', 'The Gold', 'The Eight'];
+const storyNumerals = ['I', 'II', 'III'];
+const storyNumberWords = ['One', 'Two', 'Three'];
+const primerEntries = [
+  'Entry concerning the return of travelers',
+  'Entry concerning the gate bell',
+  'Entry concerning the numbering of doors',
+];
+const chapterNameSets = [chapterNames, storyTwoChapterNames, storyThreeChapterNames];
 const storyIntroductions = [
   [
     'A man came home in a stranger’s cloth. The Order paid two crowns to learn what the journey was worth.',
@@ -31,6 +39,12 @@ const storyIntroductions = [
     'An unwalked gate needs a crew, a rented stone, and terms nobody likes saying aloud.',
     'Five hundred feet below the only door home, an entire civilization is built from knots.',
     'A tower, a drifting stone, and the smallest lie that might let a nineteen-year-old sleep.',
+  ],
+  [
+    'Ada’s knife remembers four worlds. Linen can read the route, but not the doors.',
+    'Four deepwalkers hear an offer no sensible person could afford to make.',
+    'Twenty thousand crowns has a price before anyone takes the first step.',
+    'The standing list offers one honest answer—and Mother Ansel names her terms.',
   ],
 ];
 const storyShelf = [
@@ -190,6 +204,26 @@ const storyTwoChapterVisuals = [
   [10, 10, 10, 11, 11, 11, 11, 12, 12, 12, 13, 13, 13, 13, 14, 14, 14],
 ];
 
+const storyThreeVisuals = Array.from({ length: 17 }, (_, index) => ({
+  image: `/scenes/story-three/${String(index + 1).padStart(2, '0')}.png`,
+  label: '',
+  caption: '',
+}));
+
+const storyThreeChapterVisuals = [
+  [0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4],
+  [5, 5, 5, 6, 6, 6, 7, 7, 7, 8, 8],
+  [9, 9, 10, 10, 11, 11, 12, 12],
+  [13, 13, 13, 13, 14, 14, 14, 15, 15, 15, 16, 16, 16, 16],
+];
+
+const storyVisualSets = [visuals, storyTwoVisuals, storyThreeVisuals];
+const storyChapterVisualSets = [
+  chapterVisuals,
+  storyTwoChapterVisuals,
+  storyThreeChapterVisuals,
+];
+
 export default function StoryReader({
   stories,
 }: {
@@ -208,11 +242,9 @@ export default function StoryReader({
   const story = stories[activeStory] ?? stories[0];
   const chapters = story.chapters;
   const primer = story.primer;
-  const activeChapterNames =
-    activeStory === 0 ? chapterNames : storyTwoChapterNames;
-  const activeVisuals = activeStory === 0 ? visuals : storyTwoVisuals;
-  const activeChapterVisuals =
-    activeStory === 0 ? chapterVisuals : storyTwoChapterVisuals;
+  const activeChapterNames = chapterNameSets[activeStory] ?? chapterNames;
+  const activeVisuals = storyVisualSets[activeStory] ?? visuals;
+  const activeChapterVisuals = storyChapterVisualSets[activeStory] ?? chapterVisuals;
   const chapterData = chapters[chapter];
   const visualIndexes = activeChapterVisuals[chapter] ?? [0];
   const visual =
@@ -328,13 +360,9 @@ export default function StoryReader({
             </h1>
             <div className="primer-rule" />
             <p>{primer}</p>
-            <small>
-              {activeStory === 0
-                ? 'Entry concerning the return of travelers'
-                : 'Entry concerning the gate bell'}
-            </small>
+            <small>{primerEntries[activeStory]}</small>
             <button onClick={enterStory} disabled={phase === 'crossing'}>
-              Begin Story {activeStory === 0 ? 'One' : 'Two'} <ArrowRight />
+              Begin Story {storyNumberWords[activeStory]} <ArrowRight />
             </button>
           </div>
         </section>
@@ -488,13 +516,13 @@ export default function StoryReader({
                 {storyShelf.map(([number, title, copy], index) => (
                   <button
                     key={title}
-                    className={index < 2 ? 'available' : ''}
-                    onClick={() => index < 2 && openStory(index)}
+                    className={index < 3 ? 'available' : ''}
+                    onClick={() => index < 3 && openStory(index)}
                   >
                     <span className="shelf-number">{number}</span>
                     <strong>{title}</strong>
                     <small>{copy}</small>
-                    <em>{index < 2 ? 'Read now' : 'In the archive'}</em>
+                    <em>{index < 3 ? 'Read now' : 'In the archive'}</em>
                   </button>
                 ))}
               </div>

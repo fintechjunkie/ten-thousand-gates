@@ -1,5 +1,6 @@
 import storyOne from '../content/story-one.md?raw';
 import storyTwo from '../content/story-two.md?raw';
+import storyThree from '../content/story-three.md?raw';
 import StoryReader from './story-reader';
 
 function parseStory(markdown: string) {
@@ -37,5 +38,9 @@ export default function Home() {
       .trim() ?? '',
   });
 
-  return <StoryReader stories={[makeStory(storyOne), makeStory(storyTwo)]} />;
+  return (
+    <StoryReader
+      stories={[makeStory(storyOne), makeStory(storyTwo), makeStory(storyThree)]}
+    />
+  );
 }
