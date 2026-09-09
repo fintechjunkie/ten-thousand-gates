@@ -197,6 +197,16 @@ export default function StoryReader({
     window.setTimeout(() => setPhase('story'), 1250);
   };
 
+  const enterArchive = () => {
+    setPhase('story');
+    setOverlay('stories');
+  };
+
+  const openStoryOne = () => {
+    chooseChapter(0);
+    setPhase('primer');
+  };
+
   return (
     <main className="reader-shell">
       {phase === 'world' && (
@@ -235,8 +245,8 @@ export default function StoryReader({
                 <small>nobody gets left</small>
               </div>
             </div>
-            <button onClick={() => setPhase('primer')}>
-              Open the first account <ArrowRight />
+            <button onClick={enterArchive}>
+              Enter the story archive <ArrowRight />
             </button>
           </div>
         </section>
@@ -429,7 +439,7 @@ export default function StoryReader({
                   <button
                     key={title}
                     className={index === 0 ? 'available' : ''}
-                    onClick={() => index === 0 && chooseChapter(0)}
+                    onClick={() => index === 0 && openStoryOne()}
                   >
                     <span className="shelf-number">{number}</span>
                     <strong>{title}</strong>
