@@ -118,20 +118,23 @@ const visuals = [
   },
   {
     image: '/scenes/theatre/18-epilogue.png',
-    label: 'The account closes',
-    caption:
-      'They paid double for the box. Ansel put down a mug Sexton had not ordered.',
+    label: 'The case on Fisk’s desk',
+    caption: 'Black, locked, and heavier than it looked. Fisk put one hand on the lid.',
   },
   {
     image: '/scenes/theatre/19-case-only.png',
-    label: 'Eight hundred for the case',
-    caption: 'The case was worth more arriving without the man who carried it.',
+    label: 'The cost book',
+    caption: 'At home, Sexton entered the job in a narrow column beside his two watches.',
   },
   {
     image: '/scenes/theatre/20-cost-book.png',
-    label: 'The cost of the rule',
-    caption:
-      'Sexton could stop counting. What he did instead was buy a better book.',
+    label: 'Find out properly',
+    caption: 'Even the riggers stopped arguing over their knot to hear Ansel’s warning.',
+  },
+  {
+    image: '/scenes/theatre/21-ansel-ending.png',
+    label: 'One cup, after all',
+    caption: 'Ansel put down a mug Sexton had not ordered. Veth lifted his own tea.',
   },
 ];
 
@@ -139,7 +142,7 @@ const chapterVisuals = [
   [0, 1, 2, 18, 19, 3],
   [4, 4, 5, 5, 5, 6, 7, 7],
   [8, 8, 9, 10, 10, 11, 11, 12, 12, 12, 12],
-  [13, 13, 14, 14, 15, 15, 16, 16, 17, 17, 17],
+  [13, 13, 14, 14, 15, 15, 16, 16, 17, 17, 20],
 ];
 
 export default function StoryReader({
