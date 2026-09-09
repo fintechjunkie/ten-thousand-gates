@@ -14,8 +14,26 @@ import {
 import { characters, type Character } from './characters';
 
 type Chapter = { number: string; scenes: string[][] };
+type Story = { chapters: Chapter[]; primer: string };
 
 const chapterNames = ['The Contract', 'The Warning', 'The Red', 'Ten Seconds'];
+const storyTwoChapterNames = ['The Bell', 'The Crew', 'The Gold', 'The Return'];
+const storyNames = ['The Red', 'The Gold'];
+const storyNumerals = ['I', 'II'];
+const storyIntroductions = [
+  [
+    'A man came home in a stranger’s cloth. The Order paid two crowns to learn what the journey was worth.',
+    'Four ways to learn what waits beyond a door—and every one of them is a warning.',
+    'At Gate 660 the whole world was red. Then the Note arrived.',
+    'The contract was for a case. Sexton was always going to bring the man.',
+  ],
+  [
+    'The bell rang twice at Gate One. Nell Coombe had been waiting for a different return.',
+    'An unwalked gate needs a crew, a rented stone, and terms nobody likes saying aloud.',
+    'Five hundred feet below the only door home, an entire civilization is built from knots.',
+    'A tower, a drifting stone, and the smallest lie that might let a nineteen-year-old sleep.',
+  ],
+];
 const storyShelf = [
   ['I', 'The Red', 'A recovery at Gate 660.'],
   ['II', 'The Gold', 'The next account.'],
@@ -138,6 +156,24 @@ const visuals = [
   },
 ];
 
+const storyTwoVisuals = [
+  '/scenes/story-two/01-gate-one-bell.png',
+  '/scenes/story-two/02-nell-tea.png',
+  '/scenes/story-two/03-corrigan-ledger.png',
+  '/scenes/story-two/04-vane-assay.png',
+  '/scenes/story-two/05-cassandra-terms.png',
+  '/scenes/story-two/06-sparrow-asks.png',
+  '/scenes/story-two/07-gold-descent.png',
+  '/scenes/story-two/08-gold-world.png',
+  '/scenes/story-two/09-rope-towers.png',
+  '/scenes/story-two/10-stone-overhead.png',
+  '/scenes/story-two/11-tower-build.png',
+  '/scenes/story-two/12-sparrow-return.png',
+  '/scenes/story-two/13-gil-catches-stone.png',
+  '/scenes/story-two/14-five-back.png',
+  '/scenes/story-two/15-linen-secret.png',
+].map((image) => ({ image, label: '', caption: '' }));
+
 const chapterVisuals = [
   [0, 1, 2, 18, 19, 3],
   [4, 4, 5, 5, 5, 6, 7, 7],
@@ -145,26 +181,40 @@ const chapterVisuals = [
   [13, 13, 14, 14, 15, 15, 16, 16, 17, 17, 20],
 ];
 
+const storyTwoChapterVisuals = [
+  [0, 1, 1, 1, 1, 1, 1],
+  [2, 2, 3, 3, 4, 4, 5, 5, 5, 6, 6],
+  [6, 6, 7, 7, 8, 8, 8, 9, 9, 9, 9, 9, 10, 10, 10, 10, 10, 10],
+  [10, 10, 10, 11, 11, 11, 11, 12, 12, 12, 13, 13, 13, 13, 14, 14, 14],
+];
+
 export default function StoryReader({
-  chapters,
-  primer,
+  stories,
 }: {
-  chapters: Chapter[];
-  primer: string;
+  stories: Story[];
 }) {
   const [phase, setPhase] = useState<'world' | 'primer' | 'crossing' | 'story'>(
     'world',
   );
   const [chapter, setChapter] = useState(0);
+  const [activeStory, setActiveStory] = useState(0);
   const [activeScene, setActiveScene] = useState(0);
   const [overlay, setOverlay] = useState<'stories' | 'characters' | null>(null);
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
     null,
   );
+  const story = stories[activeStory] ?? stories[0];
+  const chapters = story.chapters;
+  const primer = story.primer;
+  const activeChapterNames =
+    activeStory === 0 ? chapterNames : storyTwoChapterNames;
+  const activeVisuals = activeStory === 0 ? visuals : storyTwoVisuals;
+  const activeChapterVisuals =
+    activeStory === 0 ? chapterVisuals : storyTwoChapterVisuals;
   const chapterData = chapters[chapter];
-  const visualIndexes = chapterVisuals[chapter] ?? [0];
+  const visualIndexes = activeChapterVisuals[chapter] ?? [0];
   const visual =
-    visuals[
+    activeVisuals[
       visualIndexes[activeScene] ?? visualIndexes[visualIndexes.length - 1]
     ];
 
@@ -187,7 +237,7 @@ export default function StoryReader({
       .querySelectorAll('[data-scene]')
       .forEach((node) => observer.observe(node));
     return () => observer.disconnect();
-  }, [chapter]);
+  }, [chapter, activeStory]);
 
   const chooseChapter = (next: number) => {
     window.scrollTo({ top: 0, behavior: 'auto' });
@@ -210,7 +260,8 @@ export default function StoryReader({
     setOverlay('stories');
   };
 
-  const openStoryOne = () => {
+  const openStory = (index: number) => {
+    setActiveStory(index);
     chooseChapter(0);
     setPhase('primer');
   };
@@ -275,9 +326,13 @@ export default function StoryReader({
             </h1>
             <div className="primer-rule" />
             <p>{primer}</p>
-            <small>Entry concerning the return of travelers</small>
+            <small>
+              {activeStory === 0
+                ? 'Entry concerning the return of travelers'
+                : 'Entry concerning the gate bell'}
+            </small>
             <button onClick={enterStory} disabled={phase === 'crossing'}>
-              Begin Story One <ArrowRight />
+              Begin Story {activeStory === 0 ? 'One' : 'Two'} <ArrowRight />
             </button>
           </div>
         </section>
@@ -297,8 +352,8 @@ export default function StoryReader({
           <span>Ten Thousand Gates</span>
         </button>
         <div className="story-mark">
-          <span>Story I</span>
-          <strong>The Red</strong>
+          <span>Story {storyNumerals[activeStory]}</span>
+          <strong>{storyNames[activeStory]}</strong>
         </div>
         <nav>
           <button onClick={() => setOverlay('stories')}>
@@ -309,21 +364,24 @@ export default function StoryReader({
             <BookOpen size={17} />
             <span>People</span>
           </button>
-          <span className="chapter-count">01 / 08</span>
+          <span className="chapter-count">
+            {String(chapter + 1).padStart(2, '0')} / 04
+          </span>
         </nav>
       </header>
 
       <div className="experience">
         <section className="visual-stage" aria-live="polite">
-          {visuals.map((item) => (
+          <div className="plate-frame" aria-hidden="true" />
+          {activeVisuals.map((item) => (
             <Image
               key={item.image + item.label}
               className={`stage-image ${item === visual ? 'is-active' : ''}`}
               src={item.image}
               alt=""
               fill
-              priority={item === visuals[0]}
-              sizes="(max-width: 860px) 100vw, 58vw"
+              priority={item === activeVisuals[0]}
+              sizes="(max-width: 980px) 100vw, 60vw"
             />
           ))}
           <div className="stage-wash" />
@@ -363,24 +421,15 @@ export default function StoryReader({
                 onClick={() => chooseChapter(index)}
               >
                 <span>{String(index + 1).padStart(2, '0')}</span>
-                {chapterNames[index]}
+                {activeChapterNames[index]}
               </button>
             ))}
           </div>
           <div className="reading-scroll">
             <div className="chapter-opening">
-              <span>Story One · Chapter {chapter + 1}</span>
-              <h1>{chapterNames[chapter]}</h1>
-              <p>
-                {
-                  [
-                    'A man came home in a stranger’s cloth. The Order paid two crowns to learn what the journey was worth.',
-                    'Four ways to learn what waits beyond a door—and every one of them is a warning.',
-                    'At Gate 660 the whole world was red. Then the Note arrived.',
-                    'The contract was for a case. Sexton was always going to bring the man.',
-                  ][chapter]
-                }
-              </p>
+              <span>Story {storyNumerals[activeStory]} · Chapter {chapter + 1}</span>
+              <h1>{activeChapterNames[chapter]}</h1>
+              <p>{storyIntroductions[activeStory][chapter]}</p>
             </div>
             {chapterData?.scenes?.length ? (
               chapterData.scenes.map((scene, index) => (
@@ -409,7 +458,7 @@ export default function StoryReader({
               <span>End of Chapter {chapter + 1}</span>
               {chapter < chapters.length - 1 ? (
                 <button onClick={() => chooseChapter(chapter + 1)}>
-                  Continue to {chapterNames[chapter + 1]} <ArrowRight />
+                  Continue to {activeChapterNames[chapter + 1]} <ArrowRight />
                 </button>
               ) : (
                 <button onClick={() => setOverlay('stories')}>
@@ -442,13 +491,13 @@ export default function StoryReader({
                 {storyShelf.map(([number, title, copy], index) => (
                   <button
                     key={title}
-                    className={index === 0 ? 'available' : ''}
-                    onClick={() => index === 0 && openStoryOne()}
+                    className={index < 2 ? 'available' : ''}
+                    onClick={() => index < 2 && openStory(index)}
                   >
                     <span className="shelf-number">{number}</span>
                     <strong>{title}</strong>
                     <small>{copy}</small>
-                    <em>{index === 0 ? 'Read now' : 'In the archive'}</em>
+                    <em>{index < 2 ? 'Read now' : 'In the archive'}</em>
                   </button>
                 ))}
               </div>

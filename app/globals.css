@@ -123,15 +123,48 @@ button {
 }
 .experience {
   display: grid;
-  grid-template-columns: 58% 42%;
+  grid-template-columns: minmax(0, 3fr) minmax(390px, 2fr);
+  gap: 18px;
   align-items: start;
+  padding: 18px;
+  background:
+    linear-gradient(90deg, #241a14, #171816 48%, #241a14),
+    #171816;
 }
 .visual-stage {
-  height: calc(100svh - 72px);
+  height: auto;
+  aspect-ratio: 3 / 2;
   position: sticky;
-  top: 72px;
+  top: 90px;
   overflow: hidden;
-  background: #20211e;
+  border: 9px solid #3a2519;
+  border-radius: 4px;
+  outline: 1px solid #c28d37;
+  background: #11120f;
+  box-shadow:
+    0 18px 55px #000a,
+    inset 0 0 0 2px #15100c,
+    inset 0 0 0 4px #8d642d;
+}
+.visual-stage:before,
+.visual-stage:after {
+  content: '';
+  position: absolute;
+  z-index: 4;
+  width: 13px;
+  height: 13px;
+  border: 1px solid #e0b662;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #f1cf7a, #79501e 70%);
+  box-shadow: 0 1px 5px #000b;
+}
+.visual-stage:before {
+  left: 7px;
+  top: 7px;
+}
+.visual-stage:after {
+  right: 7px;
+  bottom: 7px;
 }
 .stage-image {
   object-fit: contain;
@@ -146,8 +179,15 @@ button {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, #0001 35%, #111b 100%),
-    linear-gradient(90deg, transparent 80%, #121311a0);
+    linear-gradient(180deg, transparent 70%, #1117 100%);
+}
+.plate-frame {
+  position: absolute;
+  z-index: 3;
+  inset: 10px;
+  pointer-events: none;
+  border: 1px solid #e3b95c80;
+  box-shadow: inset 0 0 24px #0008;
 }
 .scene-counter {
   position: absolute;
@@ -226,7 +266,11 @@ button {
     linear-gradient(90deg, #00000007 1px, transparent 1px),
     linear-gradient(#00000006 1px, transparent 1px);
   background-size: 28px 28px;
-  box-shadow: inset 18px 0 36px #332b1d18;
+  border: 1px solid #a77a37;
+  outline: 7px solid #3a2519;
+  box-shadow:
+    inset 18px 0 36px #332b1d18,
+    0 18px 55px #0009;
 }
 .chapter-tabs {
   height: 62px;
@@ -598,39 +642,71 @@ button {
 .primer-intro {
   display: grid;
   place-items: center;
-  overflow: auto;
+  overflow: hidden;
   background: radial-gradient(circle at 50% 20%, #393b34, #141512 68%);
 }
 .primer-page {
-  width: min(680px, calc(100% - 40px));
-  margin: 50px 0;
-  padding: clamp(38px, 6vw, 74px);
+  width: min(610px, calc(100% - 44px));
+  max-height: calc(100svh - 34px);
+  position: relative;
+  overflow: auto;
+  margin: 17px 0;
+  padding: clamp(26px, 4vh, 44px) clamp(30px, 4vw, 52px);
   color: #25221d;
-  background: #e9e0cc;
-  box-shadow: 0 30px 100px #000c;
+  border: 1px solid #8f6a32;
+  border-radius: 3px 8px 4px 7px;
+  outline: 5px double #4d3520;
+  background:
+    radial-gradient(circle at 12% 8%, #fff8ddaa, transparent 25%),
+    radial-gradient(circle at 88% 92%, #7f542022, transparent 30%),
+    linear-gradient(90deg, #8a5a2430, transparent 7%, transparent 93%, #70471938),
+    #e7d5ad;
+  box-shadow:
+    0 30px 100px #000d,
+    inset 0 0 45px #7b4c1d38;
   transform: rotate(-0.4deg);
+}
+.primer-page:before,
+.primer-page:after {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border: 1px solid #e1b65c;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #f2d486, #79501e 72%);
+  box-shadow: 0 2px 5px #0008;
+}
+.primer-page:before {
+  top: 14px;
+  left: 14px;
+}
+.primer-page:after {
+  right: 14px;
+  bottom: 14px;
 }
 .primer-page > span {
   color: #8e302a;
 }
 .primer-page h1 {
-  margin: 22px 0 28px;
-  font: 600 clamp(52px, 7vw, 86px)/0.82 var(--font-display);
+  margin: 14px 0 18px;
+  font: 600 clamp(43px, 6vh, 62px)/0.84 var(--font-display);
   letter-spacing: -0.04em;
 }
 .primer-rule {
   width: 90px;
   height: 3px;
-  margin-bottom: 38px;
+  margin-bottom: 20px;
   background: var(--red);
 }
 .primer-page p {
   white-space: pre-line;
-  font: 500 23px/1.55 var(--font-display);
+  margin: 0;
+  font: 500 clamp(17px, 2.1vh, 20px)/1.42 var(--font-display);
 }
 .primer-page small {
   display: block;
-  margin: 35px 0;
+  margin: 20px 0 14px;
   color: #756d60;
   font: 10px var(--font-mono);
   text-transform: uppercase;
@@ -779,7 +855,7 @@ button {
     opacity: 0;
   }
 }
-@media (max-width: 860px) {
+@media (max-width: 980px) {
   .masthead {
     height: 64px;
     grid-template-columns: auto 1fr auto;
@@ -799,11 +875,14 @@ button {
   .experience {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto;
+    gap: 12px;
+    padding: 12px;
   }
   .visual-stage {
     position: relative;
     top: auto;
-    height: min(52svh, 480px);
+    height: auto;
+    aspect-ratio: 3 / 2;
   }
   .stage-caption {
     bottom: 25px;
@@ -879,7 +958,7 @@ button {
     font-size: 56px;
   }
   .primer-page p {
-    font-size: 19px;
+    font-size: 17px;
   }
   .overlay-heading h2 {
     font-size: 48px;

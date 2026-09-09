@@ -1,4 +1,5 @@
 import storyOne from '../content/story-one.md?raw';
+import storyTwo from '../content/story-two.md?raw';
 import StoryReader from './story-reader';
 
 function parseStory(markdown: string) {
@@ -26,11 +27,15 @@ function parseStory(markdown: string) {
 }
 
 export default function Home() {
-  const primer =
-    storyOne
+  const makeStory = (source: string) => ({
+    chapters: parseStory(source),
+    primer:
+      source
       .split('---')[1]
       ?.replace(/^>\s?/gm, '')
       .replace(/\*/g, '')
-      .trim() ?? '';
-  return <StoryReader chapters={parseStory(storyOne)} primer={primer} />;
+      .trim() ?? '',
+  });
+
+  return <StoryReader stories={[makeStory(storyOne), makeStory(storyTwo)]} />;
 }
