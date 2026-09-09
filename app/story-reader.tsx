@@ -171,6 +171,9 @@ const storyTwoVisuals = [
   '/scenes/story-two/13-gil-catches-stone.png',
   '/scenes/story-two/14-five-back.png',
   '/scenes/story-two/15-linen-secret.png',
+  '/scenes/story-two/16-nell-waits.png',
+  '/scenes/story-two/17-nell-finds-sexton.png',
+  '/scenes/story-two/18-dragonflies.png',
 ].map((image) => ({ image, label: '', caption: '' }));
 
 const chapterVisuals = [
@@ -181,7 +184,7 @@ const chapterVisuals = [
 ];
 
 const storyTwoChapterVisuals = [
-  [0, 1, 1, 1, 1, 1, 1],
+  [0, 15, 16, 1, 17, 17, 1, 1, 1],
   [2, 2, 3, 3, 4, 4, 5, 5, 5, 6, 6],
   [6, 6, 7, 7, 8, 8, 8, 9, 9, 9, 9, 9, 10, 10, 10, 10, 10, 10],
   [10, 10, 10, 11, 11, 11, 11, 12, 12, 12, 13, 13, 13, 13, 14, 14, 14],

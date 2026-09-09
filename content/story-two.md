@@ -16,9 +16,13 @@ Twice is a body. Once is a living return. The bell's on a post by the arrivals b
 
 Gate One is a railway station built round a door. Slate board, tiered benches, a roof over most of it and a stove that goes out. People come and sit there with no information at all, because a gate is not a timetable, and the ones who come every week are known to the clerks by name and are not discussed.
 
+---
+
 Nell Coombe was on the third bench. Ninth time in a month.
 
 It wasn't him. She told me all this afterwards, in the order she'd lived it, which is not the order I'm telling it in. The wrapping was wrong for a start, black and waxed and stitched at the head, and there was a woman four seats along who stood up when she saw it and made a noise, so at least it was somebody's.
+
+---
 
 Nell got the tram back into the city and asked at the Lazaret and got sent nine miles the wrong way, and found me on the steps of the receiving hall at about eleven at night with the wind coming up off the flats.
 
