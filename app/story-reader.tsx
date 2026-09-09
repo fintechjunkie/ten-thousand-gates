@@ -330,10 +330,6 @@ export default function StoryReader({
           <div className="scene-counter">
             CH {chapter + 1} · {String(activeScene + 1).padStart(2, '0')}
           </div>
-          <div className="stage-caption" key={visual.label}>
-            <span>{visual.label}</span>
-            <p>{visual.caption}</p>
-          </div>
           <button
             className="character-peek"
             onClick={() => setOverlay('characters')}
