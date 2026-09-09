@@ -458,8 +458,8 @@ button {
 }
 .character-deck {
   display: grid;
-  grid-template-columns: repeat(3, minmax(150px, 1fr));
-  gap: 22px;
+  grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
+  gap: 16px;
   align-content: start;
 }
 .character-deck button {
@@ -500,6 +500,17 @@ button {
 .character-deck h3 {
   margin: 6px 0;
   font: 600 33px var(--font-display);
+}
+.tbd-badge {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 3px 6px;
+  color: #f5ead5;
+  border-radius: 2px;
+  background: #96382f;
+  font: normal 8px var(--font-mono);
+  letter-spacing: 0.12em;
+  vertical-align: middle;
 }
 .character-deck p {
   margin: 0;
@@ -647,6 +658,16 @@ button {
   width: 1px;
   background: #bc342a66;
 }
+.primer-intro.is-crossing {
+  pointer-events: none;
+  animation: primerFade 1.25s ease-in forwards;
+}
+.primer-intro.is-crossing .primer-page {
+  animation: primerIntoGate 1.15s cubic-bezier(0.7, 0, 0.2, 1) forwards;
+}
+.primer-intro.is-crossing .primer-gate {
+  animation: gateOpens 1.2s cubic-bezier(0.7, 0, 0.2, 1) forwards;
+}
 .dossier-sheet {
   position: fixed;
   inset: 0;
@@ -726,6 +747,38 @@ button {
     opacity: 0;
   }
 }
+@keyframes primerIntoGate {
+  45% {
+    transform: rotate(0) scale(0.92);
+    filter: brightness(1.15);
+  }
+  to {
+    opacity: 0;
+    transform: rotate(0) scale(0.15) translateX(180%);
+    filter: brightness(2);
+  }
+}
+@keyframes gateOpens {
+  60% {
+    box-shadow:
+      inset 0 0 0 2px #e3b75b,
+      0 0 80px #d64a3e88;
+    transform: scale(1.25);
+  }
+  to {
+    opacity: 0;
+    transform: scale(7);
+    background: #f1d7a7;
+  }
+}
+@keyframes primerFade {
+  80% {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
 @media (max-width: 860px) {
   .masthead {
     height: 64px;
@@ -791,9 +844,15 @@ button {
     grid-template-columns: 1fr;
     padding: 90px 24px 50px;
   }
-  .story-shelf,
-  .character-deck {
+  .story-shelf {
     grid-template-columns: 1fr;
+  }
+  .character-deck {
+    grid-template-columns: repeat(2, minmax(130px, 1fr));
+    gap: 14px;
+  }
+  .character-deck h3 {
+    font-size: 25px;
   }
   .intro-copy h1 {
     font-size: 74px;

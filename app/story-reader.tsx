@@ -34,13 +34,13 @@ const visuals = [
     caption: 'A returned traveler. Two crowns. Half a world in his pockets.',
   },
   {
-    image: '/world/mother-ansel.png',
+    image: '/scenes/16-ansel-refuses-tea.png',
     label: 'The Lazaret',
     caption:
       'A carriage, a cup of tea, and a clerk who has already made himself conspicuous.',
   },
   {
-    image: '/world/sexton.png',
+    image: '/scenes/15-lazaret-contract.png',
     label: 'The Contract',
     caption:
       'Four hundred for the man and the case. Eight hundred for the case alone.',
@@ -56,7 +56,7 @@ const visuals = [
     caption: 'Smashed goggles. Unused line. The noise does not stop.',
   },
   {
-    image: '/world/veth-garg.png',
+    image: '/scenes/17-veth-tailor-stone.png',
     label: 'A second stone',
     caption: 'His is honest. Sexton’s is not. That is the whole reason.',
   },
@@ -125,13 +125,18 @@ const visuals = [
     caption:
       'They paid double for the box because a man who comes home can talk.',
   },
+  {
+    image: '/scenes/18-deepwalker.png',
+    label: 'Four drinks deep',
+    caption: 'A knotted cord remembers the route when a deepwalker cannot.',
+  },
 ];
 
 const chapterVisuals = [
-  [0, 12, 12, 2, 2, 12],
-  [3, 4, 4, 6, 6, 2, 13, 5],
-  [6, 7, 14, 14, 8, 15, 15, 9, 9, 9, 9],
-  [9, 10, 10, 16, 16, 11, 11, 17, 17, 12],
+  [0, 1, 2, 12, 17, 5],
+  [3, 4, 18, 6, 5, 13, 2, 17],
+  [6, 7, 14, 8, 15, 9, 11, 5, 4, 13, 3],
+  [9, 10, 16, 11, 17, 12, 14, 15, 8, 0],
 ];
 
 export default function StoryReader({
@@ -141,7 +146,9 @@ export default function StoryReader({
   chapters: Chapter[];
   primer: string;
 }) {
-  const [phase, setPhase] = useState<'world' | 'primer' | 'story'>('world');
+  const [phase, setPhase] = useState<'world' | 'primer' | 'crossing' | 'story'>(
+    'world',
+  );
   const [chapter, setChapter] = useState(0);
   const [activeScene, setActiveScene] = useState(0);
   const [overlay, setOverlay] = useState<'stories' | 'characters' | null>(null);
@@ -183,6 +190,11 @@ export default function StoryReader({
     requestAnimationFrame(() =>
       window.scrollTo({ top: 0, behavior: 'smooth' }),
     );
+  };
+
+  const enterStory = () => {
+    setPhase('crossing');
+    window.setTimeout(() => setPhase('story'), 1250);
   };
 
   return (
@@ -229,8 +241,10 @@ export default function StoryReader({
           </div>
         </section>
       )}
-      {phase === 'primer' && (
-        <section className="primer-intro">
+      {(phase === 'primer' || phase === 'crossing') && (
+        <section
+          className={`primer-intro ${phase === 'crossing' ? 'is-crossing' : ''}`}
+        >
           <div className="primer-gate" aria-hidden="true">
             <i />
           </div>
@@ -244,7 +258,7 @@ export default function StoryReader({
             <div className="primer-rule" />
             <p>{primer}</p>
             <small>Entry concerning the return of travelers</small>
-            <button onClick={() => setPhase('story')}>
+            <button onClick={enterStory} disabled={phase === 'crossing'}>
               Begin Story One <ArrowRight />
             </button>
           </div>
@@ -460,7 +474,10 @@ export default function StoryReader({
                       />
                     </div>
                     <span>{character.role}</span>
-                    <h3>{character.name}</h3>
+                    <h3>
+                      {character.name}
+                      {character.tbd && <em className="tbd-badge">TBD</em>}
+                    </h3>
                     <p>{character.fact}</p>
                   </button>
                 ))}

@@ -4,6 +4,7 @@ export type Character = {
   role: string;
   fact: string;
   firstStory: string;
+  tbd?: boolean;
 };
 
 const known: Record<string, Omit<Character, 'name' | 'slug'>> = {
@@ -153,12 +154,22 @@ const slug = (name: string) =>
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-|-$/g, '');
 
-export const characters: Character[] = names.map((name) => ({
-  name,
-  slug: slug(name),
-  ...(known[name] ?? {
-    role: 'Canonical figure · Archive sealed',
-    fact: 'Their portrait is on record. Their place in the accounts has not yet been disclosed.',
-    firstStory: 'Beyond the current account',
-  }),
-}));
+export const characters: Character[] = [
+  ...names.map((name) => ({
+    name,
+    slug: slug(name),
+    ...(known[name] ?? {
+      role: 'Canonical figure · Archive sealed',
+      fact: 'Their portrait is on record. Their place in the accounts has not yet been disclosed.',
+      firstStory: 'Beyond the current account',
+    }),
+  })),
+  ...Array.from({ length: 49 }, (_, index) => ({
+    name: `Unnamed Figure ${String(index + 1).padStart(2, '0')}`,
+    slug: `tbd-${String(index + 1).padStart(2, '0')}`,
+    role: 'Identity pending',
+    fact: 'This canonical portrait is awaiting a name and a confirmed place in the archive.',
+    firstStory: 'To be determined',
+    tbd: true,
+  })),
+];
