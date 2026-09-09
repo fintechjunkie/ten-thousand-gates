@@ -29,114 +29,106 @@ const storyShelf = [
 
 const visuals = [
   {
-    image: '/scenes/01-receiving-hall.png',
+    image: '/scenes/theatre/01-receiving-hall.png',
     label: 'Receiving Hall',
     caption: 'A returned traveler. Two crowns. Half a world in his pockets.',
   },
   {
-    image: '/scenes/16-ansel-refuses-tea.png',
-    label: 'The Lazaret',
+    image: '/scenes/theatre/02-ansel-tea.png',
+    label: 'One cup only',
     caption:
-      'A carriage, a cup of tea, and a clerk who has already made himself conspicuous.',
+      'Ansel said no. It was the kindest thing anybody did for Fisk all week.',
   },
   {
-    image: '/scenes/15-lazaret-contract.png',
+    image: '/scenes/theatre/03-contract.png',
     label: 'The Contract',
     caption:
       'Four hundred for the man and the case. Eight hundred for the case alone.',
   },
   {
-    image: '/scenes/02-ledger-house.png',
-    label: 'The Ledger House',
+    image: '/scenes/theatre/04-commitment.png',
+    label: 'Nobody gets left',
+    caption: 'The case was in the contract. The man was already coming home.',
+  },
+  {
+    image: '/scenes/theatre/05-ledger-house.png',
+    label: 'The first way',
     caption: 'Nine lines about a habitable world. Four of them are warnings.',
   },
   {
-    image: '/scenes/03-gate-hut.png',
-    label: 'Gate 660',
+    image: '/scenes/theatre/06-gate-660.png',
+    label: 'The second way',
     caption: 'Smashed goggles. Unused line. The noise does not stop.',
   },
   {
-    image: '/scenes/17-veth-tailor-stone.png',
-    label: 'A second stone',
-    caption: 'His is honest. Sexton’s is not. That is the whole reason.',
+    image: '/scenes/theatre/07-deepwalker.png',
+    label: 'The third way',
+    caption: 'Four drinks and a knotted cord. Deepwalkers lie for money.',
   },
   {
-    image: '/world/ten-thousand-gates.png',
+    image: '/scenes/theatre/08-veth-tailor.png',
+    label: 'The fourth way',
+    caption: 'His stone is honest. Sexton’s is not. That is the whole reason.',
+  },
+  {
+    image: '/scenes/theatre/09-salt-rail.png',
     label: 'The Salt',
-    caption: 'The rail stops. The arches keep going.',
+    caption: 'The rail stops caring. The arches keep going.',
   },
   {
-    image: '/scenes/04-crossing.png',
-    label: 'Through',
-    caption: 'White behind them. One color ahead.',
+    image: '/scenes/theatre/10-gate-dark.png',
+    label: 'Gate 660',
+    caption: 'At 660 it went dark, and Sexton could not see it.',
   },
   {
-    image: '/scenes/05-button-trail.png',
-    label: 'Up-valley',
-    caption: 'He sold the outside first and worked his way in.',
-  },
-  {
-    image: '/scenes/06-oracle.png',
-    label: 'The Oracle',
-    caption: 'One answer in every eleven landing. Enough to build a faith on.',
-  },
-  {
-    image: '/scenes/07-silence.png',
-    label: 'Ten seconds',
-    caption:
-      'The Note stopped. What replaced it was so big Sexton forgot what he was holding.',
-  },
-  {
-    image: '/scenes/08-return.png',
-    label: 'Two out. Two back.',
-    caption:
-      'The Salt was so completely, stupidly white that it hurt to look at.',
-  },
-  {
-    image: '/scenes/09-lazaret-tea.png',
-    label: 'Tea at the Lazaret',
-    caption:
-      'Ansel said no. It was the kindest thing anybody did for Fisk all week.',
-  },
-  {
-    image: '/scenes/10-veth-tailor.png',
-    label: 'The Ninth Market',
-    caption:
-      'Four arms, formal dress, and a stone bought over four years of missed rent.',
-  },
-  {
-    image: '/scenes/11-the-note.png',
+    image: '/scenes/theatre/11-the-note.png',
     label: 'The Note',
     caption: 'Low. Continuous. There was no direction to it and no past it.',
   },
   {
-    image: '/scenes/12-waistcoat-trail.png',
+    image: '/scenes/theatre/12-clothing-trail.png',
     label: 'The suit in pieces',
-    caption: 'A cuff, a heel, and half a waistcoat cut down for a child.',
+    caption: 'A cuff, a lining, and half a waistcoat cut down for a child.',
   },
   {
-    image: '/scenes/13-terrace-run.png',
-    label: 'South',
-    caption: 'Two hundred behind them. The gate was two hours away.',
-  },
-  {
-    image: '/scenes/14-fisk-office.png',
-    label: 'A room with a carpet',
+    image: '/scenes/theatre/13-terraces.png',
+    label: 'Up through the terraces',
     caption:
-      'They paid double for the box because a man who comes home can talk.',
+      'Everybody came out. The children ran alongside. Sexton did not like it.',
   },
   {
-    image: '/scenes/18-deepwalker.png',
-    label: 'Four drinks deep',
-    caption: 'A knotted cord remembers the route when a deepwalker cannot.',
+    image: '/scenes/theatre/14-red-wall.png',
+    label: 'The last of the light',
+    caption: 'There was a man to recover and a whole settlement in the way.',
+  },
+  {
+    image: '/scenes/theatre/15-oracle-house.png',
+    label: 'The Oracle',
+    caption: 'Eleven people waited. One man knew the stone in Sexton’s arm.',
+  },
+  {
+    image: '/scenes/theatre/16-ten-seconds.png',
+    label: 'Ten seconds',
+    caption: 'The Note stopped. The silence was bigger than the sound.',
+  },
+  {
+    image: '/scenes/theatre/17-return.png',
+    label: 'Two out. Three back.',
+    caption: 'They arrived the way a dropped thing arrives.',
+  },
+  {
+    image: '/scenes/theatre/18-epilogue.png',
+    label: 'The account closes',
+    caption:
+      'They paid double for the box. Ansel put down a mug Sexton had not ordered.',
   },
 ];
 
 const chapterVisuals = [
-  [0, 1, 2, 12, 17, 5],
-  [3, 4, 18, 6, 5, 13, 2, 17],
-  [6, 7, 14, 8, 15, 9, 11, 5, 4, 13, 3],
-  [9, 10, 16, 11, 17, 12, 14, 15, 8, 0],
+  [0, 1, 2, 2, 3, 3],
+  [4, 4, 5, 5, 5, 6, 7, 7],
+  [8, 8, 9, 10, 10, 11, 11, 12, 12, 12, 12],
+  [13, 13, 14, 14, 15, 15, 16, 16, 17, 17, 17],
 ];
 
 export default function StoryReader({
