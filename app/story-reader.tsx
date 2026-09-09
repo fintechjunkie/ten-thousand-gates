@@ -122,10 +122,21 @@ const visuals = [
     caption:
       'They paid double for the box. Ansel put down a mug Sexton had not ordered.',
   },
+  {
+    image: '/scenes/theatre/19-case-only.png',
+    label: 'Eight hundred for the case',
+    caption: 'The case was worth more arriving without the man who carried it.',
+  },
+  {
+    image: '/scenes/theatre/20-cost-book.png',
+    label: 'The cost of the rule',
+    caption:
+      'Sexton could stop counting. What he did instead was buy a better book.',
+  },
 ];
 
 const chapterVisuals = [
-  [0, 1, 2, 2, 3, 3],
+  [0, 1, 2, 18, 19, 3],
   [4, 4, 5, 5, 5, 6, 7, 7],
   [8, 8, 9, 10, 10, 11, 11, 12, 12, 12, 12],
   [13, 13, 14, 14, 15, 15, 16, 16, 17, 17, 17],
@@ -176,12 +187,14 @@ export default function StoryReader({
   }, [chapter]);
 
   const chooseChapter = (next: number) => {
+    window.scrollTo({ top: 0, behavior: 'auto' });
     setChapter(next);
     setActiveScene(0);
     setOverlay(null);
-    requestAnimationFrame(() =>
-      window.scrollTo({ top: 0, behavior: 'smooth' }),
-    );
+    requestAnimationFrame(() => {
+      setActiveScene(0);
+      window.scrollTo({ top: 0, behavior: 'auto' });
+    });
   };
 
   const enterStory = () => {
