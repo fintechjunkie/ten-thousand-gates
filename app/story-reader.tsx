@@ -11,6 +11,7 @@ import {
   Menu,
   X,
 } from 'lucide-react';
+import { characters, type Character } from './characters';
 
 type Chapter = { number: string; scenes: string[][] };
 
@@ -24,33 +25,6 @@ const storyShelf = [
   ['VI', 'The Shelf', 'What was left waiting.'],
   ['VII', 'Nothing to Sell', 'A world where value changed.'],
   ['VIII', 'The Ladder', 'The way farther through.'],
-];
-
-const characters = [
-  {
-    name: 'Sexton',
-    role: 'Retrieval specialist',
-    image: '/world/sexton.png',
-    fact: 'Nobody gets left.',
-  },
-  {
-    name: 'Veth Garg',
-    role: 'Companion · Stranded',
-    image: '/world/veth-garg.png',
-    fact: 'Forty-one doors. Still looking.',
-  },
-  {
-    name: 'Mother Ansel',
-    role: 'Keeper of the Lazaret',
-    image: '/world/mother-ansel.png',
-    fact: 'Tea means things went badly.',
-  },
-  {
-    name: 'Verity Ash',
-    role: 'Keeper of the files',
-    image: '/world/verity-ash.png',
-    fact: 'Nine lines. No contractions.',
-  },
 ];
 
 const visuals = [
@@ -118,17 +92,68 @@ const visuals = [
     caption:
       'The Salt was so completely, stupidly white that it hurt to look at.',
   },
+  {
+    image: '/scenes/09-lazaret-tea.png',
+    label: 'Tea at the Lazaret',
+    caption:
+      'Ansel said no. It was the kindest thing anybody did for Fisk all week.',
+  },
+  {
+    image: '/scenes/10-veth-tailor.png',
+    label: 'The Ninth Market',
+    caption:
+      'Four arms, formal dress, and a stone bought over four years of missed rent.',
+  },
+  {
+    image: '/scenes/11-the-note.png',
+    label: 'The Note',
+    caption: 'Low. Continuous. There was no direction to it and no past it.',
+  },
+  {
+    image: '/scenes/12-waistcoat-trail.png',
+    label: 'The suit in pieces',
+    caption: 'A cuff, a heel, and half a waistcoat cut down for a child.',
+  },
+  {
+    image: '/scenes/13-terrace-run.png',
+    label: 'South',
+    caption: 'Two hundred behind them. The gate was two hours away.',
+  },
+  {
+    image: '/scenes/14-fisk-office.png',
+    label: 'A room with a carpet',
+    caption:
+      'They paid double for the box because a man who comes home can talk.',
+  },
 ];
 
-const sceneOffsets = [0, 3, 6, 10];
+const chapterVisuals = [
+  [0, 12, 12, 2, 2, 12],
+  [3, 4, 4, 6, 6, 2, 13, 5],
+  [6, 7, 14, 14, 8, 15, 15, 9, 9, 9, 9],
+  [9, 10, 10, 16, 16, 11, 11, 17, 17, 12],
+];
 
-export default function StoryReader({ chapters }: { chapters: Chapter[] }) {
+export default function StoryReader({
+  chapters,
+  primer,
+}: {
+  chapters: Chapter[];
+  primer: string;
+}) {
+  const [phase, setPhase] = useState<'world' | 'primer' | 'story'>('world');
   const [chapter, setChapter] = useState(0);
   const [activeScene, setActiveScene] = useState(0);
   const [overlay, setOverlay] = useState<'stories' | 'characters' | null>(null);
+  const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
+    null,
+  );
   const chapterData = chapters[chapter];
+  const visualIndexes = chapterVisuals[chapter] ?? [0];
   const visual =
-    visuals[Math.min(sceneOffsets[chapter] + activeScene, visuals.length - 1)];
+    visuals[
+      visualIndexes[activeScene] ?? visualIndexes[visualIndexes.length - 1]
+    ];
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -162,6 +187,69 @@ export default function StoryReader({ chapters }: { chapters: Chapter[] }) {
 
   return (
     <main className="reader-shell">
+      {phase === 'world' && (
+        <section className="world-intro">
+          <Image
+            src="/world/ten-thousand-gates.png"
+            alt="The Ten Thousand Gates stretching across the Salt"
+            fill
+            priority
+            sizes="100vw"
+          />
+          <div className="intro-shade" />
+          <div className="intro-copy">
+            <span>Welcome to Sill</span>
+            <h1>
+              Ten Thousand
+              <br />
+              Gates
+            </h1>
+            <p>
+              Beyond each door is another world. A stone buys the crossing. The
+              Order keeps the records. The people who go through bring back
+              whatever the records missed.
+            </p>
+            <div className="world-rules">
+              <div>
+                <strong>10,000</strong>
+                <small>doors across the Salt</small>
+              </div>
+              <div>
+                <strong>One stone</strong>
+                <small>one way home</small>
+              </div>
+              <div>
+                <strong>The rule</strong>
+                <small>nobody gets left</small>
+              </div>
+            </div>
+            <button onClick={() => setPhase('primer')}>
+              Open the first account <ArrowRight />
+            </button>
+          </div>
+        </section>
+      )}
+      {phase === 'primer' && (
+        <section className="primer-intro">
+          <div className="primer-gate" aria-hidden="true">
+            <i />
+          </div>
+          <div className="primer-page">
+            <span>Purchased at Sill · One crown</span>
+            <h1>
+              The Traveler’s
+              <br />
+              Primer
+            </h1>
+            <div className="primer-rule" />
+            <p>{primer}</p>
+            <small>Entry concerning the return of travelers</small>
+            <button onClick={() => setPhase('story')}>
+              Begin Story One <ArrowRight />
+            </button>
+          </div>
+        </section>
+      )}
       <header className="masthead">
         <button
           className="menu-button"
@@ -219,10 +307,10 @@ export default function StoryReader({ chapters }: { chapters: Chapter[] }) {
             onClick={() => setOverlay('characters')}
           >
             <span className="avatar-stack">
-              {characters.slice(0, 3).map((c) => (
+              {characters.slice(15, 18).map((c) => (
                 <Image
                   key={c.name}
-                  src={c.image}
+                  src={`/characters/${c.slug}.webp`}
                   alt=""
                   width={38}
                   height={38}
@@ -354,8 +442,9 @@ export default function StoryReader({ chapters }: { chapters: Chapter[] }) {
               </div>
               <div className="character-deck">
                 {characters.map((character, index) => (
-                  <article
+                  <button
                     key={character.name}
+                    onClick={() => setSelectedCharacter(character)}
                     style={
                       {
                         '--tilt': `${index % 2 ? 2 : -2}deg`,
@@ -364,7 +453,7 @@ export default function StoryReader({ chapters }: { chapters: Chapter[] }) {
                   >
                     <div className="portrait">
                       <Image
-                        src={character.image}
+                        src={`/characters/${character.slug}.webp`}
                         alt={character.name}
                         fill
                         sizes="260px"
@@ -373,12 +462,45 @@ export default function StoryReader({ chapters }: { chapters: Chapter[] }) {
                     <span>{character.role}</span>
                     <h3>{character.name}</h3>
                     <p>{character.fact}</p>
-                  </article>
+                  </button>
                 ))}
               </div>
             </div>
           )}
         </div>
+      )}
+      {selectedCharacter && (
+        <aside className="dossier-sheet">
+          <button
+            className="dossier-close"
+            onClick={() => setSelectedCharacter(null)}
+          >
+            <X />
+            <span>Back to the archive</span>
+          </button>
+          <div className="dossier-portrait">
+            <Image
+              src={`/characters/${selectedCharacter.slug}.webp`}
+              alt={selectedCharacter.name}
+              fill
+              sizes="(max-width: 700px) 100vw, 50vw"
+            />
+          </div>
+          <div className="dossier-copy">
+            <span>Canonical record</span>
+            <h2>{selectedCharacter.name}</h2>
+            <strong>{selectedCharacter.role}</strong>
+            <p>{selectedCharacter.fact}</p>
+            <dl>
+              <dt>First known account</dt>
+              <dd>{selectedCharacter.firstStory}</dd>
+              <dt>Archive status</dt>
+              <dd>
+                {selectedCharacter.role.includes('sealed') ? 'Sealed' : 'Open'}
+              </dd>
+            </dl>
+          </div>
+        </aside>
       )}
     </main>
   );
